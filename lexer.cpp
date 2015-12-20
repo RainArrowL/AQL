@@ -14,9 +14,9 @@ getAQLTokens(string AQLText) {
 
     int len = AQLText.length(), i;
     for (i = 0; i < len; i++) {
-    	// 忽略空白符 
+    	// ignore the white charactors 
     	if (isWhite(s[i])) continue;
-    	// 正则表达式 
+    	// the regex expression
     	else if (s[i] == '/') {
     		for (i++; s[i] != '/' || s[i-1] == '\\'; i++) {
     			tmp_str += s[i];
