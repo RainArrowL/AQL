@@ -1,12 +1,13 @@
+#include "global.h"
 #include "tokenizer.h"
 
 vector<TextToken>
 getTextTokens(const string &text) {
     vector<TextToken> tokens;
     
-    string tmp_str;
+    string tmp_str = "";
     
-    int len = text.length(), i;
+    int len = text.length(), i, st = -1;
 //    printf("len: %d\n", len);
 //    for (i = 0; i < len; i++)
 //        printf("[%3d]: %c %d\n", i, text[i], text[i]);
@@ -16,25 +17,29 @@ getTextTokens(const string &text) {
         if (isWhite(text[i])) continue;
         // 数字 
         else if (isdigit(text[i])) {
+            if (st == -1) st = i;
             tmp_str += text[i];
             
             if (!isdigit(text[i+1]) || isWhite(text[i+1])) {
-                tokens.push_back( TextToken(tmp_str) );
-                tmp_str = "";
+                tokens.push_back( TextToken(tmp_str, st) );
+                clear(tmp_str);
+                st = -1;
             }
         }
         // 英文字母 
         else if (isalpha(text[i])) {
+            if (st == -1) st = i;
             tmp_str += text[i];
             
             if (!isalpha(text[i+1]) || isWhite(text[i+1])) {
-                tokens.push_back( TextToken(tmp_str) );
-                tmp_str = "";
+                tokens.push_back( TextToken(tmp_str, st) );
+                clear(tmp_str);
+                st = -1;
             } 
         } else { // 其他常见英文符号 
             tmp_str += text[i];
-            tokens.push_back( TextToken(tmp_str) );
-            tmp_str = "";
+            tokens.push_back( TextToken(tmp_str, i) );
+            clear(tmp_str);
         }
     }
     

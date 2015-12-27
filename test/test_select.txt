@@ -1,0 +1,4 @@
+create view MyView as
+	select D.text
+	from Document D;
+

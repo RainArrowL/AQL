@@ -34,25 +34,28 @@ enum AQLType {
     ID,                 // other string as ID
 };
 
-struct aqlToken {
+class AQLToken {
+  public:
     enum AQLType type;
     string str;
     int num;
 
-    aqlToken() {}
-    aqlToken(enum AQLType type) :
+    AQLToken() {}
+    AQLToken(enum AQLType type) :
         type(type) {}
-    aqlToken(enum AQLType type, string str) :
+    AQLToken(enum AQLType type, string str) :
         type(type), str(str) {}
-    aqlToken(enum AQLType type, int num) :
+    AQLToken(enum AQLType type, int num) :
         type(type), num(num) {}
 };
-
-typedef struct aqlToken AQLToken;
 
 // 提取AQL文本中的token 
 vector<AQLToken>
 getAQLTokens(string AQLText);
+
+// type to string
+string
+AQLTypeToString(enum AQLType type);
 
 #endif
 

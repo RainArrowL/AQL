@@ -1,10 +1,10 @@
+#include "global.h"
 #include "lexer.h"
-
-inline void clear(string &s) { s = ""; }
-inline void clear(int &a) { a = 0; }
 
 vector<AQLToken>
 getAQLTokens(string AQLText) {
+//    printf("AQLText: %s\n", AQLText.c_str());
+    
 	vector<AQLToken> tokens;
 
 	string &s = AQLText;
@@ -13,6 +13,7 @@ getAQLTokens(string AQLText) {
     int tmp_num;
 
     int len = AQLText.length(), i;
+//    printf("len: %d\n", len);
     for (i = 0; i < len; i++) {
     	// ignore the white charactors 
     	if (isWhite(s[i])) continue;
@@ -27,9 +28,10 @@ getAQLTokens(string AQLText) {
     	}
     	// string without '_'
     	else if (isalpha(s[i])) {
+//    	    puts("IN alpha");
     		for (; isalnum(s[i]); i++) {
     			tmp_str += s[i];
-    		}
+    		}i--;
 
     		if 		(tmp_str == "create")  tokens.push_back( AQLToken(CREATE) );
     		else if (tmp_str == "view")    tokens.push_back( AQLToken(VIEW) );
@@ -47,19 +49,24 @@ getAQLTokens(string AQLText) {
     		else if (tmp_str == "pattern") tokens.push_back( AQLToken(PATTERN) );
 
     		else /* [a-zA-Z][a-zA-Z0-9]* */tokens.push_back( AQLToken(ID, tmp_str) );
-
+            
+//            printf("%s\n", tmp_str.c_str());
     		clear(tmp_str);
     	}
     	// digits
     	else if (isdigit(s[i])) {
+//    	    puts("IN digit");
     		for (; isdigit(s[i]); i++) {
     			tmp_num = tmp_num*10 + s[i]-'0';
-    		}
+    		}i--;
 
     		tokens.push_back( AQLToken(NUM, tmp_num) );
+//    		printf("%d\n", tmp_num);
     		clear(tmp_num);
     	}
     	else /* [.,;()<>{}] */ {
+//    	    puts("IN else");
+//    	    printf("%c\n", s[i]);
     		if 		(s[i] == '.') tokens.push_back( AQLToken(DOT) );
     		else if (s[i] == ',') tokens.push_back( AQLToken(COMMA) );
     		else if (s[i] == ';') tokens.push_back( AQLToken(SEMICOLON) );
@@ -67,12 +74,45 @@ getAQLTokens(string AQLText) {
     		else if (s[i] == ')') tokens.push_back( AQLToken(RIGHT_ROUND_BRACKET) );
     		else if (s[i] == '<') tokens.push_back( AQLToken(LEFT_ANGLE_BRACKET) );
     		else if (s[i] == '>') tokens.push_back( AQLToken(RIGHT_ANGLE_BRACKET) );
-    		else if (s[i] == '}') tokens.push_back( AQLToken(LEFT_CURLY_BRACKET) );
+    		else if (s[i] == '{') tokens.push_back( AQLToken(LEFT_CURLY_BRACKET) );
     		else if (s[i] == '}') tokens.push_back( AQLToken(RIGHT_CURLY_BRACKET) );
 
-    		else /* unable recognized charactor */ error();
+    		else /* unable recognized charactor */ error("Invalid token !");
     	}
     }
 
     return tokens;
+}
+
+// type to string
+string
+AQLTypeToString(enum AQLType type) {
+    if      (type == CREATE)              return "create";
+    else if (type == VIEW)                return "view";
+    else if (type == AS)                  return "as";
+    else if (type == OUTPUT)              return "output";
+    else if (type == SELECT)              return "select";
+    else if (type == FROM)                return "from";
+    else if (type == EXTRACT)             return "extract";
+    else if (type == REGEX)               return "regex";
+    else if (type == ON)                  return "on";
+    else if (type == RETURN)              return "return";
+    else if (type == GROUP)               return "group";
+    else if (type == AND)                 return "and";
+    else if (type == TOKEN)               return "Token";
+    else if (type == PATTERN)             return "pattern";
+    
+    else if (type == DOT)                 return ".";
+    else if (type == COMMA)               return ",";
+    else if (type == SEMICOLON)           return ";";
+    else if (type == LEFT_ROUND_BRACKET)  return "(";
+    else if (type == RIGHT_ROUND_BRACKET) return ")";
+    else if (type == LEFT_ANGLE_BRACKET)  return "<";
+    else if (type == RIGHT_ANGLE_BRACKET) return ">";
+    else if (type == LEFT_CURLY_BRACKET)  return "{";
+    else if (type == RIGHT_CURLY_BRACKET) return "}";
+
+    else if (type == REG)                 return "/reg/";
+    else if (type == NUM)                 return "NUM";
+    else if (type == ID)                  return "ID";
 }

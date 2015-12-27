@@ -8,15 +8,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
+#include <set>
 
 using namespace std;
-
-#include "global.h"
-
-#include "lexer.h"
-//#include "parser.h"
-//#include "regex.cpp"
-#include "pattern.h"
-#include "tokenizer.h"
 
 #endif

@@ -4,14 +4,14 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o tokenizer.o regex.o global.o lexer.o
-LINKOBJ  = main.o tokenizer.o regex.o global.o lexer.o
-LIBS     = -L"D:/Dev Cpp/Dev-Cpp/MinGW64/lib" -L"D:/Dev Cpp/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+OBJ      = main.o tokenizer.o regex.o global.o lexer.o parser.o pattern.o
+LINKOBJ  = main.o tokenizer.o regex.o global.o lexer.o parser.o pattern.o
+LIBS     = -L"D:/Dev Cpp/Dev-Cpp/MinGW64/lib" -L"D:/Dev Cpp/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
 INCS     = -I"D:/Dev Cpp/Dev-Cpp/MinGW64/include" -I"D:/Dev Cpp/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev Cpp/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"
 CXXINCS  = -I"D:/Dev Cpp/Dev-Cpp/MinGW64/include" -I"D:/Dev Cpp/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev Cpp/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"D:/Dev Cpp/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"
 BIN      = AQL.exe
-CXXFLAGS = $(CXXINCS) 
-CFLAGS   = $(INCS) 
+CXXFLAGS = $(CXXINCS) -g3
+CFLAGS   = $(INCS) -g3
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -38,3 +38,9 @@ global.o: global.cpp
 
 lexer.o: lexer.cpp
 	$(CPP) -c lexer.cpp -o lexer.o $(CXXFLAGS)
+
+parser.o: parser.cpp
+	$(CPP) -c parser.cpp -o parser.o $(CXXFLAGS)
+
+pattern.o: pattern.cpp
+	$(CPP) -c pattern.cpp -o pattern.o $(CXXFLAGS)

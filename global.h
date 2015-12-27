@@ -5,10 +5,20 @@
 
 // 将目标文件 file 打开，读取其中内容转换成string类型 
 string
-textToString(const char *file);
+textToString(string file);
 
-bool isWhite(const char &c);
+bool
+isWhite(const char &c);
 
-void error();
+void error(string msg);
+
+void clear(string &s);
+void clear(int &a);
+
+int
+lengthOfNum(int a);
+
+string
+intToString(int a);
 
 #endif

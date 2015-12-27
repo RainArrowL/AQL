@@ -3,14 +3,15 @@
 
 #include "head.h"
 
-struct textToken {
+class TextToken {
+  public:
     string token;
-    textToken() {}
-    textToken(string token) :
-        token(token) {}
+    int st, ed;
+    set<int> group_num;
+    TextToken() {}
+    TextToken(string token, int st) :
+        token(token), st(st) { ed = st+token.length(); }
 };
-
-typedef struct textToken TextToken;
 
 // 将 string text 进行token划分提取 
 vector<TextToken>

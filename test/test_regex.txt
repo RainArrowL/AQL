@@ -1,0 +1,16 @@
+create view ViewRegex as
+	extract regex /[a-zA-Z]+/
+	on D.text as MyText
+	from Document D;
+
+create view ViewRegex2 as
+	extract regex /([a-zA-Z])([a-zA-Z]*)/
+	on D.text
+	return group 1 as HeadAlpha
+	and group 0 as word
+	and group 2 as Tail
+	from Document D;
+
+output view ViewRegex as MYREGEXVIEW;
+output view ViewRegex2;
+output view EmpyView;
